@@ -28,7 +28,6 @@ public class Paint extends MouseAdapter {
 	public JToggleButton botaoRetangulo;
 	public JToggleButton botaoElipse;
 	public JToggleButton botaoLinha;
-
 	private int x0;
 	private int y0;
 	
@@ -42,8 +41,6 @@ public class Paint extends MouseAdapter {
 		painelPrincipal.setLayout(new BorderLayout());
 		
 		this.figuras = new ArrayList<Figura>();
-		
-		//barraDeFerramentas = new BarraDeFerramentas();
 		
 		barraDeFerramentas = new JToolBar("Barra de Ferramentas");
 		grupo = new ButtonGroup();

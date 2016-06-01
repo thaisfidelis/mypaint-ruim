@@ -90,32 +90,14 @@ public class Paint extends MouseAdapter {
 				super.paintComponent(g);
 				g.setColor(Color.BLACK);
 				for (Figura f : figuras) {
-					switch (f.tipo) {
-					case Figura.RETANGULO:
-						g.drawRect(f.x, f.y, f.x2 - f.x, f.y2 - f.y);
-						break;
-					case Figura.ELIPSE:
-						g.drawOval(f.x, f.y, f.x2 - f.x, f.y2 - f.y);
-						break;
-					case Figura.LINHA:
-						g.drawLine(f.x, f.y, f.x2, f.y2);
-						break;
-					}
+					componenteDesenho(g, f);
 				}
 				if (tmp != null) {
-					switch (tmp.tipo) {
-					case Figura.RETANGULO:
-						g.drawRect(tmp.x, tmp.y, tmp.x2 - tmp.x, tmp.y2 - tmp.y);
-						break;
-					case Figura.ELIPSE:
-						g.drawOval(tmp.x, tmp.y, tmp.x2 - tmp.x, tmp.y2 - tmp.y);
-						break;
-					case Figura.LINHA:
-						g.drawLine(tmp.x, tmp.y, tmp.x2, tmp.y2);
-						break;
-					}
+					componenteDesenho(g, tmp);
 				}
 			}
+
+		
 		};
 		painelPrincipal.add(areaDeDesenho, BorderLayout.CENTER);
 		
@@ -141,19 +123,11 @@ public class Paint extends MouseAdapter {
 		int x1 = e.getX();
 		int y1 = e.getY();
 		if (botaoSelecionado == botaoRetangulo) {
-			int xc = Math.min(this.x0, x1);
-			int yc = Math.min(this.y0, y1);
-			int largura = Math.abs(x1 - this.x0);
-			int altura = Math.abs(y1 - this.y0);
-			tmp = new Figura(Figura.RETANGULO, xc, yc, xc + largura, yc + altura);
+			tmp = criaFigura(x1, y1, Figura.RETANGULO);
 		} else if (botaoSelecionado == botaoLinha) {
 			tmp = new Figura(Figura.LINHA, this.x0, this.y0, x1, y1);
 		} else {
-			int xc = Math.min(this.x0, x1);
-			int yc = Math.min(this.y0, y1);
-			int largura = Math.abs(x1 - this.x0);
-			int altura = Math.abs(y1 - this.y0);
-			tmp = new Figura(Figura.ELIPSE, xc, yc, xc + largura, yc + altura);
+			tmp = criaFigura(x1, y1, Figura.ELIPSE);
 		}
 		areaDeDesenho.repaint();
 	}
@@ -164,23 +138,39 @@ public class Paint extends MouseAdapter {
 		int y1 = e.getY();
 		Figura f;
 		if (botaoSelecionado == botaoRetangulo) {
-			int xc = Math.min(this.x0, x1);
-			int yc = Math.min(this.y0, y1);
-			int largura = Math.abs(x1 - this.x0);
-			int altura = Math.abs(y1 - this.y0);
-			f = new Figura(Figura.RETANGULO, xc, yc, xc + largura, yc + altura);
+			f = criaFigura(x1, y1, Figura.RETANGULO);
 		} else if (botaoSelecionado == botaoLinha) {
 			f = new Figura(Figura.LINHA, this.x0, this.y0, x1, y1);
 		} else {
-			int xc = Math.min(this.x0, x1);
-			int yc = Math.min(this.y0, y1);
-			int largura = Math.abs(x1 - this.x0);
-			int altura = Math.abs(y1 - this.y0);
-			f = new Figura(Figura.ELIPSE, xc, yc, xc + largura, yc + altura);
+			f = criaFigura(x1, y1, Figura.ELIPSE);
 		}
 		figuras.add(f);
 		tmp = null;
 		areaDeDesenho.repaint();
+	}
+
+	private Figura criaFigura(int x1, int y1, int tipofigura) {
+		Figura f;
+		int xc = Math.min(this.x0, x1);
+		int yc = Math.min(this.y0, y1);
+		int largura = Math.abs(x1 - this.x0);
+		int altura = Math.abs(y1 - this.y0);
+		f = new Figura(tipofigura, xc, yc, xc + largura, yc + altura);
+		return f;
+	}
+	
+	private void componenteDesenho(Graphics g, Figura f) {
+		switch (f.tipo) {
+		case Figura.RETANGULO:
+			g.drawRect(f.x, f.y, f.x2 - f.x, f.y2 - f.y);
+			break;
+		case Figura.ELIPSE:
+			g.drawOval(f.x, f.y, f.x2 - f.x, f.y2 - f.y);
+			break;
+		case Figura.LINHA:
+			g.drawLine(f.x, f.y, f.x2, f.y2);
+			break;
+		}
 	}
 	
 }
